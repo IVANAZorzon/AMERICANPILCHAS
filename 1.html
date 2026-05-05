@@ -232,7 +232,7 @@ body{font-family:'Lato',sans-serif;background:#f9f6f0;}
 <script>
 const WA = '543731498954';
 const SHEET_ID = '108XP-Qx7rTRjGgCsI5C5cDCK_rdkeg4yItwbbZ1yRzQ';
-const SHEET_URL = `https://corsproxy.io/?https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
+const SHEET_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`)}`;
 
 const rubrosInfo = {
   'mujer-inv-buzos':         'mujer-buzos',
@@ -300,24 +300,31 @@ async function cargarPlanilla() {
   if (todosLosDatos) return todosLosDatos;
   try {
     const res = await fetch(SHEET_URL);
+    if (!res.ok) throw new Error('No se pudo leer la planilla');
     const text = await res.text();
     const start = text.indexOf("{");
-    const json = JSON.parse(text.substring(start));
-    const rows = json.table.rows;
+    const end = text.lastIndexOf("}") + 1;
+    const json = JSON.parse(text.substring(start, end));
+    const rows = json.table.rows || [];
     todosLosDatos = rows.map(r => ({
       categoria: r.c[0]?.v?.toString().trim().toLowerCase() || '',
       imagen: r.c[1]?.v?.toString().trim() || ''
     })).filter(r => r.categoria && r.imagen);
     return todosLosDatos;
   } catch(e) {
+    console.error('Error cargando Google Sheets:', e);
     todosLosDatos = [];
     return [];
   }
 }
 
+function limpiarUrl(url) {
+  return encodeURI(url.trim());
+}
+
 async function getFotos(categoria) {
   const datos = await cargarPlanilla();
-  return datos.filter(r => r.categoria === categoria).map(r => r.imagen);
+  return datos.filter(r => r.categoria === categoria).map(r => limpiarUrl(r.imagen));
 }
 
 async function setRubro(rubro, btn) {
