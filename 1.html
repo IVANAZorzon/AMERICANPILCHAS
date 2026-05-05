@@ -232,7 +232,9 @@ body{font-family:'Lato',sans-serif;background:#f9f6f0;}
 <script>
 const WA = '543731498954';
 const SHEET_ID = '108XP-Qx7rTrjGgCsl5C5cDCK_rdke9y4ltwbbZ1yRzQ';
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
+const SHEET_NAME = 'Sheet1';
+const GOOGLE_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+const SHEET_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(GOOGLE_SHEET_URL)}`;
 
 const rubrosInfo = {
   'mujer-inv-buzos':         'mujer-buzos',
@@ -300,23 +302,19 @@ async function cargarPlanilla() {
   if (todosLosDatos) return todosLosDatos;
   try {
     const res = await fetch(SHEET_URL);
+    if (!res.ok) throw new Error('No se pudo leer Google Sheets');
     const text = await res.text();
-
-    const json = JSON.parse(
-      text.substring(47).slice(0, -2)
-    );
-
-    const rows = json.table.rows;
-
+    const start = text.indexOf('{');
+    const end = text.lastIndexOf('}');
+    if (start === -1 || end === -1) throw new Error('Respuesta inválida de Google Sheets');
+    const json = JSON.parse(text.substring(start, end + 1));
+    const rows = json.table.rows || [];
     todosLosDatos = rows.map(r => ({
       categoria: r.c[0]?.v?.toString().trim().toLowerCase() || '',
       imagen: r.c[1]?.v?.toString().trim() || ''
     })).filter(r => r.categoria && r.imagen);
-
     return todosLosDatos;
   } catch(e) {
-    console.error('Error cargando datos:', e);
-    document.getElementById('contenido').innerHTML = '<div class="vacio">Error cargando datos.<br>Revisá que la planilla sea pública y que la hoja se llame Sheet1.</div>';
     todosLosDatos = [];
     return [];
   }
@@ -460,38 +458,5 @@ async function mostrarNuevo() {
 
 function abrirWA(msg) { window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank'); }
 </script>
-</body>
-  </script>
-
-<script>
-const SHEET_ID = "108XP-Qx7rTrjGgCsl5C5cDCK_rdke9y4ltwbbZ1yRzQ";
-
-const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
-
-fetch(URL)
-  .then(res => res.text())
-  .then(text => {
-    const json = JSON.parse(text.substring(47).slice(0, -2));
-    const rows = json.table.rows;
-
-    let html = "";
-
-    rows.forEach(r => {
-      const categoria = r.c[0]?.v;
-      const imagen = r.c[1]?.v;
-
-      if (categoria === "mujer-buzos") {
-        html += `<img src="${imagen}" style="width:200px;margin:10px;">`;
-      }
-    });
-
-    document.getElementById("contenido").innerHTML = html;
-  })
-  .catch(err => {
-    console.error(err);
-    document.getElementById("contenido").innerHTML = "Error cargando datos";
-  });
-</script>
-
 </body>
 </html>
