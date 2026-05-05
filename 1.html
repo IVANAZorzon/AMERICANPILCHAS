@@ -461,4 +461,37 @@ async function mostrarNuevo() {
 function abrirWA(msg) { window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank'); }
 </script>
 </body>
+  </script>
+
+<script>
+const SHEET_ID = "108XP-Qx7rTrjGgCsl5C5cDCK_rdke9y4ltwbbZ1yRzQ";
+
+const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
+
+fetch(URL)
+  .then(res => res.text())
+  .then(text => {
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
+
+    let html = "";
+
+    rows.forEach(r => {
+      const categoria = r.c[0]?.v;
+      const imagen = r.c[1]?.v;
+
+      if (categoria === "mujer-buzos") {
+        html += `<img src="${imagen}" style="width:200px;margin:10px;">`;
+      }
+    });
+
+    document.getElementById("contenido").innerHTML = html;
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("contenido").innerHTML = "Error cargando datos";
+  });
+</script>
+
+</body>
 </html>
