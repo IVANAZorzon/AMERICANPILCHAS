@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>American Pilchas - Catálogo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lato',sans-serif;background:#f9f6f0;}
+.ap-header{background:#1a5c2a;color:#f5f0e8;padding:1.5rem;text-align:center;border-bottom:3px solid #c9a96e;}
+.ap-logo{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;letter-spacing:3px;text-transform:uppercase;}
+.ap-tagline{font-size:10px;letter-spacing:4px;color:#c9a96e;margin-top:4px;text-transform:uppercase;}
+.ap-envio{background:#c9a96e;color:white;text-align:center;padding:7px;font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+.nav-principal{background:#1a5c2a;display:flex;justify-content:center;flex-wrap:wrap;border-bottom:2px solid #c9a96e;}
+.nav-btn{background:transparent;border:none;color:#c8e6c9;padding:12px 14px;font-size:11px;font-family:'Lato',sans-serif;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s;font-weight:700;}
+.nav-btn:hover,.nav-btn.active{color:#c9a96e;border-bottom-color:#c9a96e;}
+.submenu{background:#2d7a3a;display:none;flex-wrap:wrap;gap:6px;padding:10px 16px;border-bottom:2px solid #1a5c2a;}
+.submenu.visible{display:flex;}
+.sub-btn{background:transparent;border:1.5px solid #a5d6a7;color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-family:'Lato',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-weight:700;transition:all 0.2s;}
+.sub-btn:hover,.sub-btn.active{background:#c9a96e;color:white;border-color:#c9a96e;}
+.submenu2{background:#1e6b30;display:none;flex-wrap:wrap;gap:6px;padding:8px 16px;border-bottom:2px solid #155224;}
+.submenu2.visible{display:flex;}
+.sub2-btn{background:transparent;border:1.5px solid #81c784;color:#e8f5e9;padding:4px 12px;border-radius:20px;font-size:11px;font-family:'Lato',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-weight:700;transition:all 0.2s;}
+.sub2-btn:hover,.sub2-btn.active{background:#c9a96e;color:white;border-color:#c9a96e;}
+.breadcrumb{padding:10px 16px;font-size:11px;color:#888;background:#f9f6f0;border-bottom:0.5px solid #e0d5c5;letter-spacing:1px;}
+.breadcrumb span{color:#1a5c2a;font-weight:700;}
+.ap-grid{padding:1.5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;min-height:200px;}
+.ap-card{background:white;border:0.5px solid #e0d5c5;border-radius:4px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;cursor:pointer;}
+.ap-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.12);}
+.ap-card-img{width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;font-size:44px;position:relative;overflow:hidden;background:#f5f0e8;}
+.ap-card-img img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;}
+.ap-badge{position:absolute;top:8px;left:8px;background:#c9a96e;color:white;font-size:9px;padding:3px 8px;letter-spacing:1px;text-transform:uppercase;z-index:2;}
+.ver-mas{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.55);color:white;font-size:9px;padding:3px 8px;border-radius:10px;letter-spacing:1px;z-index:2;}
+.ap-card-info{padding:10px 12px;border-top:0.5px solid #e0d5c5;}
+.ap-card-name{font-family:'Playfair Display',serif;font-size:13px;color:#1a1a1a;margin-bottom:3px;}
+.ap-card-cat{font-size:10px;color:#1a5c2a;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;font-weight:700;}
+.ap-card-talles{font-size:10px;color:#888;margin-bottom:8px;}
+.ap-card-cta{display:block;background:#25d366;color:white;text-align:center;padding:7px;font-size:10px;letter-spacing:1px;text-transform:uppercase;border-radius:2px;text-decoration:none;}
+.ap-card-cta:hover{background:#1ebe57;}
+.bienvenida{padding:3rem 2rem;text-align:center;}
+.bienvenida h2{font-family:'Playfair Display',serif;font-size:22px;color:#1a5c2a;margin-bottom:12px;}
+.bienvenida p{font-size:14px;color:#888;line-height:1.7;}
+.bienvenida .cats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:1.5rem;}
+.bienvenida .cat-pill{background:#1a5c2a;color:#f5f0e8;padding:10px 20px;border-radius:2px;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;}
+.bienvenida .cat-pill:hover{background:#c9a96e;}
+.vacio{padding:3rem;text-align:center;color:#aaa;font-size:13px;line-height:1.8;}
+.loading{padding:3rem;text-align:center;color:#1a5c2a;font-size:13px;}
+.loading-spinner{display:inline-block;width:24px;height:24px;border:2px solid #c9a96e;border-top-color:#1a5c2a;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:10px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:1000;justify-content:center;align-items:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:white;width:90%;max-width:460px;max-height:92vh;overflow-y:auto;border-radius:6px;position:relative;}
+.modal-close{position:absolute;top:10px;right:14px;background:rgba(0,0,0,0.4);border:none;font-size:18px;cursor:pointer;color:white;z-index:10;width:30px;height:30px;border-radius:50%;}
+.modal-close:hover{background:#c9a96e;}
+.modal-main-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;}
+.modal-thumbs{display:flex;gap:8px;padding:10px 12px;overflow-x:auto;background:#f9f6f0;}
+.modal-thumb{width:65px;height:65px;object-fit:cover;border-radius:3px;cursor:pointer;border:2px solid transparent;flex-shrink:0;}
+.modal-thumb.active,.modal-thumb:hover{border-color:#1a5c2a;}
+.modal-info{padding:14px 16px;}
+.modal-nombre{font-family:'Playfair Display',serif;font-size:19px;color:#1a1a1a;margin-bottom:4px;}
+.modal-talles{font-size:12px;color:#888;margin-bottom:14px;}
+.modal-wa{display:block;background:#25d366;color:white;text-align:center;padding:12px;font-size:11px;letter-spacing:2px;text-transform:uppercase;border-radius:3px;text-decoration:none;}
+.modal-wa:hover{background:#1ebe57;}
+.ap-footer{background:#1a5c2a;color:#f5f0e8;text-align:center;padding:1.5rem;font-size:12px;}
+.ap-footer a{color:#c9a96e;text-decoration:none;}
+.ap-footer-wa{display:inline-block;margin-top:10px;background:#25d366;color:white;padding:10px 24px;border-radius:2px;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;}
+.ap-footer-wa:hover{background:#1ebe57;}
+</style>
+</head>
+<body>
+
+<div class="ap-header">
+  <div class="ap-logo">American Pilchas</div>
+  <div class="ap-tagline">Vestirse no debería ser un problema · 21 años</div>
+</div>
+<div class="ap-envio">Envíos a toda la zona · Charata, Chaco</div>
+
+<div class="nav-principal">
+  <button class="nav-btn" onclick="setSeccion('mujer',this)">Mujer</button>
+  <button class="nav-btn" onclick="setSeccion('hombre',this)">Hombre</button>
+  <button class="nav-btn" onclick="setSeccion('ninos',this)">Niños</button>
+  <button class="nav-btn" onclick="setSeccion('teens',this)">Teens</button>
+  <button class="nav-btn" onclick="setSeccion('ninas',this)">Niñas</button>
+  <button class="nav-btn" onclick="setSeccion('mallas',this)">Mallas</button>
+  <button class="nav-btn" onclick="setSeccion('shortbano',this)">Short de baño</button>
+  <button class="nav-btn" onclick="setSeccion('deportiva',this)">Ropa deportiva</button>
+  <button class="nav-btn" onclick="setSeccion('medias',this)">Medias</button>
+  <button class="nav-btn" onclick="setSeccion('pantuflas',this)">Pantuflas</button>
+  <button class="nav-btn" onclick="setSeccion('nuevo',this)">Nuevo ingreso</button>
+</div>
+
+<div class="submenu" id="sub-mujer">
+  <button class="sub-btn" onclick="setInvierno('mujer',this)">Invierno</button>
+  <button class="sub-btn" onclick="setRubro('mujer-verano',this)">Verano</button>
+  <button class="sub-btn" onclick="setRubro('mujer-jeans',this)">Jeans</button>
+  <button class="sub-btn" onclick="setRubro('mujer-pantalon',this)">Pantalón de vestir</button>
+  <button class="sub-btn" onclick="setRubro('mujer-interior',this)">Ropa interior</button>
+  <button class="sub-btn" onclick="setRubro('mujer-fiesta',this)">Fiesta</button>
+  <button class="sub-btn" onclick="setRubro('mujer-blazer',this)">Blazer</button>
+</div>
+<div class="submenu" id="sub-hombre">
+  <button class="sub-btn" onclick="setInvierno('hombre',this)">Invierno</button>
+  <button class="sub-btn" onclick="setRubro('hombre-verano',this)">Verano</button>
+  <button class="sub-btn" onclick="setRubro('hombre-jeans',this)">Jeans</button>
+  <button class="sub-btn" onclick="setRubro('hombre-camisas',this)">Camisas</button>
+  <button class="sub-btn" onclick="setRubro('hombre-sacos',this)">Sacos</button>
+</div>
+<div class="submenu" id="sub-ninos">
+  <button class="sub-btn" onclick="setInvierno('ninos',this)">Invierno</button>
+  <button class="sub-btn" onclick="setRubro('ninos-nene',this)">Nene</button>
+  <button class="sub-btn" onclick="setRubro('ninos-nina',this)">Niña</button>
+  <button class="sub-btn" onclick="setRubro('ninos-jeans',this)">Jeans nene y niña</button>
+</div>
+<div class="submenu" id="sub-teens">
+  <button class="sub-btn" onclick="setTeensInvierno(this)">Invierno</button>
+  <button class="sub-btn" onclick="setTeensVerano(this)">Verano</button>
+  <button class="sub-btn" onclick="setRubro('teens-jeans-mujer',this)">Jeans mujer</button>
+  <button class="sub-btn" onclick="setRubro('teens-jeans-hombre',this)">Jeans hombre</button>
+  <button class="sub-btn" onclick="setRubro('teens-fiesta',this)">Fiesta</button>
+</div>
+<div class="submenu" id="sub-ninas">
+  <button class="sub-btn" onclick="setInvierno('ninas',this)">Invierno</button>
+  <button class="sub-btn" onclick="setRubro('ninas-verano',this)">Verano</button>
+  <button class="sub-btn" onclick="setRubro('ninas-jeans',this)">Jeans</button>
+  <button class="sub-btn" onclick="setRubro('ninas-fiesta',this)">Fiesta</button>
+</div>
+<div class="submenu" id="sub-mallas">
+  <button class="sub-btn" onclick="setRubro('mallas-dama',this)">Dama</button>
+  <button class="sub-btn" onclick="setRubro('mallas-teens',this)">Teens</button>
+  <button class="sub-btn" onclick="setRubro('mallas-ninas',this)">Niñas</button>
+</div>
+<div class="submenu" id="sub-shortbano">
+  <button class="sub-btn" onclick="setRubro('shortbano-hombre',this)">Hombre</button>
+  <button class="sub-btn" onclick="setRubro('shortbano-ninos',this)">Niños</button>
+</div>
+<div class="submenu" id="sub-deportiva">
+  <button class="sub-btn" onclick="setRubro('deportiva-mujer',this)">Mujer</button>
+  <button class="sub-btn" onclick="setRubro('deportiva-hombre',this)">Hombre</button>
+</div>
+<div class="submenu" id="sub-medias">
+  <button class="sub-btn" onclick="setRubro('medias-mujer',this)">Mujer</button>
+  <button class="sub-btn" onclick="setRubro('medias-hombre',this)">Hombre</button>
+  <button class="sub-btn" onclick="setRubro('medias-ninos',this)">Niños</button>
+</div>
+<div class="submenu" id="sub-pantuflas">
+  <button class="sub-btn" onclick="setRubro('pantuflas-mujer',this)">Mujer</button>
+  <button class="sub-btn" onclick="setRubro('pantuflas-hombre',this)">Hombre</button>
+  <button class="sub-btn" onclick="setRubro('pantuflas-ninos',this)">Niños</button>
+</div>
+
+<div class="submenu2" id="sub2-mujer">
+  <button class="sub2-btn" onclick="setRubro('mujer-inv-buzos',this)">Buzos</button>
+  <button class="sub2-btn" onclick="setRubro('mujer-inv-remeras',this)">Remeras m/larga</button>
+  <button class="sub2-btn" onclick="setRubro('mujer-inv-camperas',this)">Camperas</button>
+  <button class="sub2-btn" onclick="setRubro('mujer-inv-sweaters',this)">Sweaters</button>
+</div>
+<div class="submenu2" id="sub2-hombre">
+  <button class="sub2-btn" onclick="setRubro('hombre-inv-buzos',this)">Buzos</button>
+  <button class="sub2-btn" onclick="setRubro('hombre-inv-remeras',this)">Remeras m/larga</button>
+  <button class="sub2-btn" onclick="setRubro('hombre-inv-camperas',this)">Camperas</button>
+  <button class="sub2-btn" onclick="setRubro('hombre-inv-sweaters',this)">Sweaters</button>
+</div>
+<div class="submenu2" id="sub2-teens-invierno">
+  <button class="sub2-btn" onclick="setRubro('teens-inv-buzos',this)">Buzos</button>
+  <button class="sub2-btn" onclick="setRubro('teens-inv-remeras-dama',this)">Remeras dama</button>
+  <button class="sub2-btn" onclick="setRubro('teens-inv-remeras-varon',this)">Remeras varón</button>
+  <button class="sub2-btn" onclick="setRubro('teens-inv-camperas',this)">Camperas</button>
+  <button class="sub2-btn" onclick="setRubro('teens-inv-sweaters',this)">Sweaters</button>
+</div>
+<div class="submenu2" id="sub2-teens-verano">
+  <button class="sub2-btn" onclick="setRubro('teens-ver-remeras-dama',this)">Remeras dama</button>
+  <button class="sub2-btn" onclick="setRubro('teens-ver-remeras-varon',this)">Remeras varón</button>
+  <button class="sub2-btn" onclick="setRubro('teens-ver-short',this)">Short</button>
+  <button class="sub2-btn" onclick="setRubro('teens-ver-bermudas',this)">Bermudas</button>
+</div>
+<div class="submenu2" id="sub2-ninas">
+  <button class="sub2-btn" onclick="setRubro('ninas-inv-buzos',this)">Buzos</button>
+  <button class="sub2-btn" onclick="setRubro('ninas-inv-remeras',this)">Remeras m/larga</button>
+  <button class="sub2-btn" onclick="setRubro('ninas-inv-camperas',this)">Camperas</button>
+  <button class="sub2-btn" onclick="setRubro('ninas-inv-sweaters',this)">Sweaters</button>
+</div>
+<div class="submenu2" id="sub2-ninos">
+  <button class="sub2-btn" onclick="setRubro('ninos-inv-buzos',this)">Buzos</button>
+  <button class="sub2-btn" onclick="setRubro('ninos-inv-remeras',this)">Remeras m/larga</button>
+  <button class="sub2-btn" onclick="setRubro('ninos-inv-camperas',this)">Camperas</button>
+  <button class="sub2-btn" onclick="setRubro('ninos-inv-sweaters',this)">Sweaters</button>
+</div>
+
+<div class="breadcrumb" id="breadcrumb" style="display:none;">
+  American Pilchas › <span id="bc-text"></span>
+</div>
+
+<div id="contenido">
+  <div class="bienvenida">
+    <h2>Bienvenida al catálogo</h2>
+    <p>Elegí una categoría para ver las prendas disponibles.<br>Todos los precios se consultan directo por WhatsApp.</p>
+    <div class="cats">
+      <div class="cat-pill" onclick="setSeccion('mujer',document.querySelectorAll('.nav-btn')[0])">Mujer</div>
+      <div class="cat-pill" onclick="setSeccion('hombre',document.querySelectorAll('.nav-btn')[1])">Hombre</div>
+      <div class="cat-pill" onclick="setSeccion('ninos',document.querySelectorAll('.nav-btn')[2])">Niños</div>
+      <div class="cat-pill" onclick="setSeccion('teens',document.querySelectorAll('.nav-btn')[3])">Teens</div>
+      <div class="cat-pill" onclick="setSeccion('ninas',document.querySelectorAll('.nav-btn')[4])">Niñas</div>
+      <div class="cat-pill" onclick="setSeccion('mallas',document.querySelectorAll('.nav-btn')[5])">Mallas</div>
+      <div class="cat-pill" onclick="setSeccion('shortbano',document.querySelectorAll('.nav-btn')[6])">Short de baño</div>
+      <div class="cat-pill" onclick="setSeccion('deportiva',document.querySelectorAll('.nav-btn')[7])">Ropa deportiva</div>
+      <div class="cat-pill" onclick="setSeccion('medias',document.querySelectorAll('.nav-btn')[8])">Medias</div>
+      <div class="cat-pill" onclick="setSeccion('pantuflas',document.querySelectorAll('.nav-btn')[9])">Pantuflas</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="cerrarModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
+    <img class="modal-main-img" id="modal-img-main" src="" alt="">
+    <div class="modal-thumbs" id="modal-thumbs"></div>
+    <div class="modal-info">
+      <div class="modal-nombre" id="modal-nombre"></div>
+      <div class="modal-talles" id="modal-talles"></div>
+      <a class="modal-wa" id="modal-wa" href="#" target="_blank">Consultar por WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<div class="ap-footer">
+  <div>📍 Charata, Chaco · <a href="https://instagram.com/American_Pilchas.moda" target="_blank">@American_Pilchas.moda</a></div>
+  <div style="margin-top:4px;">¿Te gustó algo? Consultanos sin compromiso</div>
+  <div class="ap-footer-wa" onclick="abrirWA('Hola! Vi el catálogo y quiero consultar')">Escribinos por WhatsApp</div>
+</div>
+
+<script>
+const WA = '543731498954';
+const SHEET_ID = '108XP-Qx7rTRjGgCsI5C5cDCK_rdkeg4yItwbbZ1yRzQ';
+const SHEET_URL = `https://corsproxy.io/?https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
+
+const rubrosInfo = {
+  'mujer-inv-buzos':         'mujer-buzos',
+  'mujer-inv-remeras':       'mujer-remeras',
+  'mujer-inv-camperas':      'mujer-camperas',
+  'mujer-inv-sweaters':      'mujer-sweaters',
+  'mujer-verano':            'mujer-verano',
+  'mujer-jeans':             'mujer-jeans',
+  'mujer-pantalon':          'mujer-pantalon',
+  'mujer-interior':          'mujer-interior',
+  'mujer-fiesta':            'mujer-fiesta',
+  'mujer-blazer':            'mujer-blazer',
+  'hombre-inv-buzos':        'hombre-buzos',
+  'hombre-inv-remeras':      'hombre-remeras',
+  'hombre-inv-camperas':     'hombre-camperas',
+  'hombre-inv-sweaters':     'hombre-sweaters',
+  'hombre-verano':           'hombre-verano',
+  'hombre-jeans':            'hombre-jeans',
+  'hombre-camisas':          'hombre-camisas',
+  'hombre-sacos':            'hombre-sacos',
+  'ninos-inv-buzos':         'ninos-buzos',
+  'ninos-inv-remeras':       'ninos-remeras',
+  'ninos-inv-camperas':      'ninos-camperas',
+  'ninos-inv-sweaters':      'ninos-sweaters',
+  'ninos-nene':              'ninos-nene',
+  'ninos-nina':              'ninos-nina',
+  'ninos-jeans':             'ninos-jeans',
+  'teens-inv-buzos':         'teens-buzos',
+  'teens-inv-remeras-dama':  'teens-remeras-dama',
+  'teens-inv-remeras-varon': 'teens-remeras-varon',
+  'teens-inv-camperas':      'teens-camperas',
+  'teens-inv-sweaters':      'teens-sweaters',
+  'teens-ver-remeras-dama':  'teens-remeras-dama',
+  'teens-ver-remeras-varon': 'teens-remeras-varon',
+  'teens-ver-short':         'teens-short',
+  'teens-ver-bermudas':      'teens-bermudas',
+  'teens-jeans-mujer':       'teens-jeans-mujer',
+  'teens-jeans-hombre':      'teens-jeans-hombre',
+  'teens-fiesta':            'teens-fiesta',
+  'ninas-inv-buzos':         'ninas-buzos',
+  'ninas-inv-remeras':       'ninas-remeras',
+  'ninas-inv-camperas':      'ninas-camperas',
+  'ninas-inv-sweaters':      'ninas-sweaters',
+  'ninas-verano':            'ninas-verano',
+  'ninas-jeans':             'ninas-jeans',
+  'ninas-fiesta':            'ninas-fiesta',
+  'mallas-dama':             'mallas-dama',
+  'mallas-teens':            'mallas-teens',
+  'mallas-ninas':            'mallas-ninas',
+  'shortbano-hombre':        'shortbano-hombre',
+  'shortbano-ninos':         'shortbano-ninos',
+  'deportiva-mujer':         'deportiva-mujer',
+  'deportiva-hombre':        'deportiva-hombre',
+  'medias-mujer':            'medias-mujer',
+  'medias-hombre':           'medias-hombre',
+  'medias-ninos':            'medias-ninos',
+  'pantuflas-mujer':         'pantuflas-mujer',
+  'pantuflas-hombre':        'pantuflas-hombre',
+  'pantuflas-ninos':         'pantuflas-ninos',
+};
+
+let todosLosDatos = null;
+
+async function cargarPlanilla() {
+  if (todosLosDatos) return todosLosDatos;
+  try {
+    const res = await fetch(SHEET_URL);
+    const text = await res.text();
+    const start = text.indexOf("{");
+    const json = JSON.parse(text.substring(start));
+    const rows = json.table.rows;
+    todosLosDatos = rows.map(r => ({
+      categoria: r.c[0]?.v?.toString().trim().toLowerCase() || '',
+      imagen: r.c[1]?.v?.toString().trim() || ''
+    })).filter(r => r.categoria && r.imagen);
+    return todosLosDatos;
+  } catch(e) {
+    todosLosDatos = [];
+    return [];
+  }
+}
+
+async function getFotos(categoria) {
+  const datos = await cargarPlanilla();
+  return datos.filter(r => r.categoria === categoria).map(r => r.imagen);
+}
+
+async function setRubro(rubro, btn) {
+  document.querySelectorAll('.sub2-btn,.sub-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const categoria = rubrosInfo[rubro];
+  if (!categoria) return;
+  const label = btn ? btn.textContent : rubro;
+  document.getElementById('breadcrumb').style.display = 'block';
+  document.getElementById('bc-text').textContent = label;
+  document.getElementById('contenido').innerHTML = `<div class="loading"><div class="loading-spinner"></div><br>Cargando...</div>`;
+  const fotos = await getFotos(categoria);
+  renderFotos(fotos, label, categoria);
+}
+
+function renderFotos(fotos, label, categoria) {
+  if (fotos.length === 0) {
+    document.getElementById('contenido').innerHTML = `<div class="vacio">Próximamente.<br><span style="font-size:11px;color:#1a5c2a;">Consultanos por WhatsApp para ver disponibilidad.</span></div>`;
+    return;
+  }
+  window._currentFotos = fotos;
+  window._currentLabel = label;
+  let html = '<div class="ap-grid">';
+  fotos.forEach((foto, i) => {
+    const msg = encodeURIComponent(`Hola! Vi el catálogo y me interesa una prenda de: ${label}. ¿Podés contarme precio y talles disponibles?`);
+    html += `<div class="ap-card" onclick="abrirModal(${i})">
+      <div class="ap-card-img">
+        <img src="${foto}" alt="Prenda ${i+1}">
+        <div class="ver-mas">VER MÁS</div>
+      </div>
+      <div class="ap-card-info">
+        <div class="ap-card-cat">${label}</div>
+        <div class="ap-card-name">Prenda ${i+1}</div>
+        <div class="ap-card-talles">Consultá disponibilidad</div>
+        <a class="ap-card-cta" href="https://wa.me/${WA}?text=${msg}" target="_blank" onclick="event.stopPropagation()">Consultar por WhatsApp</a>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('contenido').innerHTML = html;
+}
+
+function abrirModal(idx) {
+  const fotos = window._currentFotos;
+  const label = window._currentLabel;
+  if (!fotos || !fotos[idx]) return;
+  const mainImg = document.getElementById('modal-img-main');
+  mainImg.src = fotos[idx];
+  document.getElementById('modal-nombre').textContent = label;
+  document.getElementById('modal-talles').textContent = 'Consultá precio y talles por WhatsApp';
+  const msg = encodeURIComponent(`Hola! Vi el catálogo y me interesa una prenda de: ${label}. ¿Podés contarme precio y talles?`);
+  document.getElementById('modal-wa').href = `https://wa.me/${WA}?text=${msg}`;
+  const thumbsDiv = document.getElementById('modal-thumbs');
+  thumbsDiv.innerHTML = '';
+  if (fotos.length > 1) {
+    fotos.forEach((f, i) => {
+      const img = document.createElement('img');
+      img.src = f;
+      img.className = 'modal-thumb' + (i === idx ? ' active' : '');
+      img.onclick = () => { mainImg.src = f; document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active')); img.classList.add('active'); };
+      thumbsDiv.appendChild(img);
+    });
+  }
+  document.getElementById('modal').classList.add('open');
+}
+
+function cerrarModal(e) { if(e.target.id==='modal') document.getElementById('modal').classList.remove('open'); }
+
+function setSeccion(sec, btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.submenu').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.submenu2').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.sub-btn,.sub2-btn').forEach(b => b.classList.remove('active'));
+  const sub = document.getElementById('sub-' + sec);
+  if(sub) sub.classList.add('visible');
+  document.getElementById('breadcrumb').style.display = 'none';
+  if(sec === 'nuevo') mostrarNuevo();
+  else document.getElementById('contenido').innerHTML = '<div class="vacio" style="padding:2rem;color:#bbb;font-size:12px;letter-spacing:1px;">← Elegí una categoría arriba</div>';
+}
+
+function setInvierno(sec, btn) {
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.submenu2').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.sub2-btn').forEach(b => b.classList.remove('active'));
+  const sub2 = document.getElementById('sub2-' + sec);
+  if(sub2) sub2.classList.add('visible');
+  document.getElementById('breadcrumb').style.display = 'none';
+  document.getElementById('contenido').innerHTML = '<div class="vacio" style="padding:2rem;color:#bbb;font-size:12px;letter-spacing:1px;">← Elegí un subrubro arriba</div>';
+}
+
+function setTeensInvierno(btn) {
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.submenu2').forEach(s => s.classList.remove('visible'));
+  document.getElementById('sub2-teens-invierno').classList.add('visible');
+  document.getElementById('breadcrumb').style.display = 'none';
+  document.getElementById('contenido').innerHTML = '<div class="vacio" style="padding:2rem;color:#bbb;font-size:12px;letter-spacing:1px;">← Elegí un subrubro arriba</div>';
+}
+
+function setTeensVerano(btn) {
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.submenu2').forEach(s => s.classList.remove('visible'));
+  document.getElementById('sub2-teens-verano').classList.add('visible');
+  document.getElementById('breadcrumb').style.display = 'none';
+  document.getElementById('contenido').innerHTML = '<div class="vacio" style="padding:2rem;color:#bbb;font-size:12px;letter-spacing:1px;">← Elegí un subrubro arriba</div>';
+}
+
+async function mostrarNuevo() {
+  document.getElementById('contenido').innerHTML = `<div class="loading"><div class="loading-spinner"></div><br>Cargando novedades...</div>`;
+  const fotos = await getFotos('nuevo-ingreso');
+  if(fotos.length === 0) { document.getElementById('contenido').innerHTML = '<div class="vacio">No hay ingresos nuevos por el momento.</div>'; return; }
+  window._currentFotos = fotos;
+  window._currentLabel = 'Nuevo ingreso';
+  let html = '<div class="ap-grid">';
+  fotos.forEach((foto, i) => {
+    const msg = encodeURIComponent('Hola! Vi el catálogo y me interesa una prenda del nuevo ingreso. ¿Podés contarme precio y talles?');
+    html += `<div class="ap-card" onclick="abrirModal(${i})">
+      <div class="ap-card-img"><div class="ap-badge">Nuevo</div><img src="${foto}" alt="Nuevo ${i+1}"><div class="ver-mas">VER MÁS</div></div>
+      <div class="ap-card-info">
+        <div class="ap-card-cat">Nuevo ingreso</div>
+        <div class="ap-card-name">Prenda ${i+1}</div>
+        <div class="ap-card-talles">Consultá disponibilidad</div>
+        <a class="ap-card-cta" href="https://wa.me/${WA}?text=${msg}" target="_blank" onclick="event.stopPropagation()">Consultar por WhatsApp</a>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('contenido').innerHTML = html;
+}
+
+function abrirWA(msg) { window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank'); }
+</script>
+</body>
+</html>
